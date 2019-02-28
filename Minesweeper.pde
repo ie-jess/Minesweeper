@@ -5,6 +5,7 @@ public final static int NUM_ROWS = 20;
 public final static int NUM_COLS = 20;
 private MSButton[][] buttons; //2d array of minesweeper buttons
 int NUM_BOMB = 20;
+private boolean isLose = false;
 private ArrayList <MSButton> bombs = new ArrayList <MSButton> (); //ArrayList of just the minesweeper buttons that are mined
 
 void setup ()
@@ -32,7 +33,6 @@ public void setBombs()
       if (!bombs.contains(buttons[r][c]))
       {
         bombs.add(buttons[r][c]);
-        System.out.println(r + ", " + c);
       }
       
       
@@ -45,11 +45,18 @@ public void draw ()
     background( 0 );
     if(isWon())
         displayWinningMessage();
+    if(isLose())
+        displayLosingMessage();
 }
 public boolean isWon()
 {
     //your code here
     return false;
+}
+public boolean isLose()
+{
+    //your code here
+    return true;
 }
 public void displayLosingMessage()
 {
@@ -92,7 +99,28 @@ public class MSButton
     public void mousePressed () 
     {
         clicked = true;
-        //your code here
+        marked = false;
+        if (keyPressed == true)
+        {
+            marked = !marked;
+            if(marked == false)
+                clicked = false;
+        }
+        else if(bombs.contains(this))
+        {
+            isLose = true;
+        }
+        else if (countBombs(r,c) > 0 )
+        {
+            setLabel(str(countBombs(r,c)));
+        }
+        else
+        {
+            for( int row = r-1; row < r+2; row++)
+                for (int col = c-1; col < c+2; col++)
+                    if(isValid(row, col) && !buttons[row][col].isClicked())
+                        buttons[row][col].mousePressed();
+        }
     }
 
     public void draw () 
@@ -123,11 +151,26 @@ public class MSButton
     public int countBombs(int row, int col)
     {
         int numBombs = 0;
-        for (int r = row - 1; r < = row +1; r++)
-            for (int c = col - 1; c < = col; c++)
-            {
-                
-            }
+        for(int r = row-1; r < row+2; r++)
+            for(int c = col -1; c< col +2; c++)
+                if(isValid(r,c) && bombs.contains (buttons[r][c]))
+                    numBombs++;
+        /* if(isValid(row, col-1)&& buttons[row][col-1].isMarked())
+            numBombs++;
+        if(isValid(row-1, col)&& buttons[row-1][col].isMarked())
+            numBombs++;
+        if(isValid(row+1, col)&& buttons[row+1][col].isMarked())
+            numBombs++;
+        if(isValid(row, col+1)&& buttons[row][col+1].isMarked())
+            numBombs++;
+        if(isValid(row+1, col+1)&& buttons[row+1][col+1].isMarked())
+            numBombs++;
+        if(isValid(row-1, col-1)&& buttons[row-1][col-1].isMarked())
+            numBombs++;
+        if(isValid(row-1, col+1)&& buttons[row-1][col+1].isMarked())
+            numBombs++;
+        if(isValid(row+1, col-1)&& buttons[row+1][col-1].isMarked())
+            numBombs++; */ 
         return numBombs;
     }
 }
