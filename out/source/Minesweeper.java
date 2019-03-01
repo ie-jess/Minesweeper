@@ -22,7 +22,7 @@ public class Minesweeper extends PApplet {
 public final static int NUM_ROWS = 20;
 public final static int NUM_COLS = 20;
 private MSButton[][] buttons; //2d array of minesweeper buttons
-int NUM_BOMB = 20;
+public final static int NUM_BOMB = 40;
 private boolean isLose = false;
 private ArrayList <MSButton> bombs = new ArrayList <MSButton> (); //ArrayList of just the minesweeper buttons that are mined
 
@@ -118,7 +118,7 @@ public class MSButton
     {
         clicked = true;
         marked = false;
-        if (keyPressed == true)
+        if (mouseButton == RIGHT)
         {
             marked = !marked;
             if(marked == false)
@@ -170,8 +170,8 @@ public class MSButton
     {
         int numBombs = 0;
         for(int r = row-1; r < row+2; r++)
-            for(int c = col -1; c< col +2; c++)
-                if(isValid(r,c) && bombs.contains (buttons[r][c]))
+            for(int c = col -1; c< col+2; c++)
+                if(isValid(r,c) && bombs.contains(buttons[r][c]) == true)
                     numBombs++;
         /* if(isValid(row, col-1)&& buttons[row][col-1].isMarked())
             numBombs++;
