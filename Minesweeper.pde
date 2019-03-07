@@ -1,4 +1,4 @@
-
+  
 
 import de.bezier.guido.*;
 public final static int NUM_ROWS = 20;
@@ -33,11 +33,8 @@ public void setBombs()
       if (!bombs.contains(buttons[r][c]))
       {
         bombs.add(buttons[r][c]);
-      }
-      
-      
-    }
-        
+      } 
+    }   
 }
 
 public void draw ()
@@ -45,18 +42,14 @@ public void draw ()
     background( 0 );
     if(isWon())
         displayWinningMessage();
-    if(isLose())
-        displayLosingMessage();
 }
 public boolean isWon()
 {
-    //your code here
+    for(int q = 0; q < NUM_ROWS; q++)
+      for(int w = 0; w < NUM_COLS; w++)
+        if( bombs.contains(buttons[q][w])&& buttons[q][w].isMarked() == true)
+          return true;
     return false;
-}
-public boolean isLose()
-{
-    //your code here
-    return true;
 }
 public void displayLosingMessage()
 {
@@ -155,22 +148,6 @@ public class MSButton
             for(int c = col -1; c< col+2; c++)
                 if(isValid(r,c) && bombs.contains(buttons[r][c]) == true)
                     numBombs++;
-        /* if(isValid(row, col-1)&& buttons[row][col-1].isMarked())
-            numBombs++;
-        if(isValid(row-1, col)&& buttons[row-1][col].isMarked())
-            numBombs++;
-        if(isValid(row+1, col)&& buttons[row+1][col].isMarked())
-            numBombs++;
-        if(isValid(row, col+1)&& buttons[row][col+1].isMarked())
-            numBombs++;
-        if(isValid(row+1, col+1)&& buttons[row+1][col+1].isMarked())
-            numBombs++;
-        if(isValid(row-1, col-1)&& buttons[row-1][col-1].isMarked())
-            numBombs++;
-        if(isValid(row-1, col+1)&& buttons[row-1][col+1].isMarked())
-            numBombs++;
-        if(isValid(row+1, col-1)&& buttons[row+1][col-1].isMarked())
-            numBombs++; */ 
         return numBombs;
     }
 }
